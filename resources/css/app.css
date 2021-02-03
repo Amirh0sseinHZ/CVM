@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html {
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    overflow-x: hidden;
+}
+
+#app {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    min-height: 100%;
+}
+
+#app > div {
+    height: calc(100vh - 5rem);
+}
