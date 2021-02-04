@@ -2172,7 +2172,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.specialist[data-v-7b2c5a9a] {\n    flex: 1 0 34%;\n}\n.specialist.selected[data-v-7b2c5a9a] {\n    border-color: #ffe593;\n}\n.specialist[data-v-7b2c5a9a]:nth-child(even) {\n    margin-left: 10px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.specialist[data-v-7b2c5a9a] {\n    flex: 1 0 34%;\n    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);\n}\n.specialist.selected[data-v-7b2c5a9a] {\n    border-color: #ffe593;\n    pointer-events: none;\n}\n.specialist[data-v-7b2c5a9a]:nth-child(even) {\n    margin-left: 10px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

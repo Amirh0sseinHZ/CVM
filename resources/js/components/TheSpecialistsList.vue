@@ -63,9 +63,11 @@ export default {
 <style scoped>
 .specialist {
     flex: 1 0 34%;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 }
 .specialist.selected {
     border-color: #ffe593;
+    pointer-events: none;
 }
 .specialist:nth-child(even) {
     margin-left: 10px;
