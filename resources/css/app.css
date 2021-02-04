@@ -2,10 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 body, html {
     font-family: 'Roboto', sans-serif;
     font-size: 10px;
     overflow-x: hidden;
+    @apply text-white;
 }
 
 #app {
@@ -18,5 +27,17 @@ body, html {
 }
 
 #app > div {
-    height: calc(100vh - 5rem);
+    height: calc(100vh - 6rem);
+}
+
+.router-link {
+    @apply p-1 ml-4;
+}
+
+.router-link.active {
+    @apply border-b-2 border-solid pointer-events-none;
+}
+
+.router-link:not(.active):hover {
+    @apply border-b-2 border-solid border-gray;
 }
