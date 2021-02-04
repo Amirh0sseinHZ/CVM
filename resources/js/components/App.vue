@@ -1,8 +1,6 @@
 <template>
     <div class="flex flex-col">
-        <header class="fixed bg-blue-light top-0 w-full h-20">
-            <the-navigation></the-navigation>
-        </header>
+        <the-topbar></the-topbar>
         <main class="mt-20 flex-1 flex justify-center items-center">
             <router-view></router-view>
         </main>
@@ -10,11 +8,11 @@
 </template>
 
 <script>
-import TheNavigation from "./TheNavigation";
+import TheTopbar from "./TheTopbar";
 
 export default {
     components: {
-        TheNavigation
+        TheTopbar
     }
 }
 </script>
