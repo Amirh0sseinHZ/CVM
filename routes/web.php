@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('api/v1')->group(function () {
     Route::get('reservation/{id}', [ReservationController::class, 'show']);
     Route::post('reservation', [ReservationController::class, 'store']);
+    Route::put('reservation/{id}/cancel', [ReservationController::class, 'cancel']);
 });
 
 Route::get('/', function () {
