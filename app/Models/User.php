@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +18,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'password'
     ];
 
     /**
@@ -27,17 +26,57 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password'];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * Indicate whether the model should have timestamps
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public $timestamps = false;
+
+    /**
+     * Get all the reservations of the specialist
+     */
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'specialist_id');
+    }
+
+    /**
+     * Get all the waiting reservations of the specialist
+     */
+    public function getWaitingReservations()
+    {
+        return $this->reservations()->where('status',
+            Reservation::STATUSES['waiting'])->get();
+    }
+
+    /*
+     * Get the current session of the specialist being handled
+     */
+    public function getCurrentSession()
+    {
+        return $this->reservations()->where('status',
+            Reservation::STATUSES['handling'])->first();
+    }
+
+    /*
+     * Get the estimated waiting time for the specialist in seconds
+     */
+    public function estimatedWaiting()
+    {
+        $countOfWaitingReservations = $this->getWaitingReservations()->count();
+        $estimatedTime = $countOfWaitingReservations * Reservation::RESERVATION_LENGTH;
+
+        $currentSession = $this->getCurrentSession();
+        if($currentSession) {
+            $timePassedSinceStarted = Carbon::now()->diffInSeconds(
+                $currentSession->updated_at
+            );
+            $timeRemaining = Reservation::RESERVATION_LENGTH - $timePassedSinceStarted;
+            if($timeRemaining > 0)
+                $estimatedTime += $timeRemaining;
+        }
+
+        return $estimatedTime;
+    }
 }
