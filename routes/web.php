@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::prefix('api/v1')->group(function () {
+    Route::get('reservation/{id}', [ReservationController::class, 'show']);
+    Route::post('reservation', [ReservationController::class, 'store']);
+});
 
 Route::get('/', function () {
     return view('index');
