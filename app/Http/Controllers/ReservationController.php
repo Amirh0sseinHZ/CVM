@@ -93,6 +93,38 @@ class ReservationController extends Controller
             "status"   => 200,
             "response" => $response
         ], 200);
+    }
 
+    /**
+     * Cancel the specified resource.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cancel(Request $request, $id)
+    {
+        $reservation = Reservation::where([
+            ['id', $id],
+            ['customer_id', $request->session()->getId()],
+            ['status', Reservation::STATUSES['waiting']]
+        ])->first();
+
+        if( ! $reservation) {
+            return response()->json([
+                "status"  => 404,
+                "error"   => "Not Found",
+                "message" => "The reservation was not found."
+            ], 404);
+        }
+
+        $reservation->status = Reservation::STATUSES['canceled'];
+        $reservation->save();
+
+        return response()->json([
+            "status"   => 200,
+            "message"  => "Canceled successfully!",
+            "response" => ['reservation' => $reservation]
+        ], 200);
     }
 }
