@@ -11,11 +11,24 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $waiting  = Reservation::where('status', Reservation::STATUSES['waiting'])
+            ->take((int) $request->input('limit') ? $request->input('limit') : 5)
+            ->get();
+        $handling = Reservation::where('status', Reservation::STATUSES['handling'])
+            ->get();
+
+        return response()->json([
+            "status"      => 200,
+            "response"    => ['reservations' => [
+                "handling" => $handling,
+                "waiting"  => $waiting
+            ]]
+        ], 200);
     }
 
     /**
@@ -67,12 +80,20 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $id
+     * @param \Illuminate\Http\Request  $request
+     * @param $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Request $request, $code)
     {
-        $reservation = Reservation::where('id', $id)->first();
+        $arr          = explode('_', $code);
+        $resvId       = $arr[1];
+        $specialistId = $arr[0];
+
+        $reservation = Reservation::where([
+            ['id', $resvId],
+            ['specialist_id', $specialistId]
+        ])->first();
 
         if( ! $reservation) {
             return response()->json([
@@ -85,8 +106,12 @@ class ReservationController extends Controller
         $response = ['reservation' => $reservation];
 
         if($reservation->status == Reservation::STATUSES['waiting']) {
-            $response['positionInQueue'] = $reservation->getPosInQueue();
+            $response['positionInQueue']      = $reservation->getPosInQueue();
             $response['estimatedWaitingTime'] = $reservation->getEstimatedWaitingTime();
+            $response['canBeCanceled']        = $reservation->customer_id == $request->session()->getId()
+                ? true : false;
+        } else {
+            $response['canBeCanceled'] = false;
         }
 
         return response()->json([
@@ -99,13 +124,18 @@ class ReservationController extends Controller
      * Cancel the specified resource.
      *
      * @param \Illuminate\Http\Request  $request
-     * @param $id
+     * @param $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cancel(Request $request, $id)
+    public function cancel(Request $request, $code)
     {
+        $arr          = explode('_', $code);
+        $resvId       = $arr[1];
+        $specialistId = $arr[0];
+
         $reservation = Reservation::where([
-            ['id', $id],
+            ['id', $resvId],
+            ['specialist_id', $specialistId],
             ['customer_id', $request->session()->getId()],
             ['status', Reservation::STATUSES['waiting']]
         ])->first();
