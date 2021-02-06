@@ -15,9 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('api/v1')->group(function () {
-    Route::get('reservation/{id}', [ReservationController::class, 'show']);
-    Route::post('reservation', [ReservationController::class, 'store']);
-    Route::put('reservation/{id}/cancel', [ReservationController::class, 'cancel']);
+    Route::prefix('reservations')->group(function () {
+        /* Todo: protect the route */
+        Route::get('/', [ReservationController::class, 'index']);
+        /***************************/
+        Route::post('/', [ReservationController::class, 'store']);
+        Route::get('/{code}', [ReservationController::class, 'show'])
+            ->where('code', '^([1-9]\d{0,}_[1-9]\d{0,})$');
+        Route::put('/{code}/cancel', [ReservationController::class, 'cancel'])
+            ->where('code', '^([1-9]\d{0,}_[1-9]\d{0,})$');
+    });
 });
 
 Route::get('/', function () {
