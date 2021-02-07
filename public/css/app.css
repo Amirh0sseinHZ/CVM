@@ -18001,6 +18001,7 @@ body, html {
 }
 
 .router-link {
+  cursor: pointer;
   margin-left: 1rem;
   padding: 0.25rem;
 }
