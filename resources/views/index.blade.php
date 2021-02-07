@@ -8,6 +8,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-blue-dark">
+    <noscript>
+        <strong>We're sorry but our service doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
     <div id="app">
         <App></App>
     </div>
