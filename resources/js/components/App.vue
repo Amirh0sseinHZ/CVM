@@ -4,6 +4,7 @@
         <main class="mt-20 flex-1 flex justify-center items-center">
             <router-view></router-view>
         </main>
+        <notifications group="auth" position="bottom center" />
     </div>
 </template>
 
