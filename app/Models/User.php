@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * User
+ *
+ * @mixin Builder
+ */
 class User extends Authenticatable
 {
     use HasFactory;
