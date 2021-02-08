@@ -31,7 +31,7 @@ export default {
                     }).catch(e => {reject(getError(e))});
             });
         },
-        async logout({commit}) {
+        logout({commit}) {
             return new Promise((resolve, reject) => {
                 axios.post("/logout").then(() => {
                     commit("logout_success");
