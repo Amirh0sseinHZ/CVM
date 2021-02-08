@@ -29,8 +29,6 @@ Route::prefix('v1')->group(function () {
             ->where('code', '^([1-9]\d{0,}_[1-9]\d{0,})$');
     });
 
-    Route::get('/reservation', [ReservationController::class, 'showActive']);
-
     Route::prefix('specialists')->group(function () {
         Route::get('/', [SpecialistController::class, 'index']);
         Route::get('/{id}', [SpecialistController::class, 'show']);

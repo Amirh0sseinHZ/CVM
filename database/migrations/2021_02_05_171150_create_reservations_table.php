@@ -19,7 +19,6 @@ class CreateReservationsTable extends Migration
             $table->foreignId('specialist_id')
                 ->constrained('users')
                 ->onDelete('cascade');
-            $table->string('customer_id');
             $table->tinyInteger('status')->default(Reservation::STATUSES['waiting']);
             $table->timestamps();
         });

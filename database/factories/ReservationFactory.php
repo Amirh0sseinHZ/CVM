@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class ReservationFactory extends Factory
 {
@@ -26,7 +25,6 @@ class ReservationFactory extends Factory
             'specialist_id' => function() {
                 return \App\Models\User::factory()->create()->id;
             },
-            'customer_id' => Str::random(40),
             'status' => $this->faker->randomElement([-1, 0, 1, 2]),
         ];
     }
