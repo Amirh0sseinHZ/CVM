@@ -1,10 +1,11 @@
 <template>
     <div class="flex flex-wrap">
+        <alert-bar v-if="error"></alert-bar>
         <div
             v-on:click="select(index)"
             :class="{selected: specialist.selected}"
             v-for="(specialist, index) in specialists"
-            class="specialist relative select-none outline-none border-solid border-2 border-white rounded-bl-2xl rounded-tr-2xl flex items-center justify-center py-10 my-2 cursor-pointer">
+            class="specialist relative select-none text-center outline-none border-solid border-2 border-white rounded-bl-2xl rounded-tr-2xl flex items-center justify-center py-10 my-2 cursor-pointer">
             <span>{{specialist.name}}</span>
             <div :style="'background-color:' + statusColor(specialist.awaiting)" class="absolute bottom-2 right-2 w-2 h-2 rounded-full"></div>
         </div>
@@ -12,36 +13,23 @@
 </template>
 
 <script>
-export default {
+    import axios from "axios";
+    import AlertBar from "./AlertBar";
+
+    export default {
+    components: {AlertBar},
     data() {
         return {
-            specialists: [
-                {
-                    id: 1,
-                    name: 'Jon Doe',
-                    awaiting: 6,
-                    selected: false
-                },
-                {
-                    id: 2,
-                    name: 'Foo Bar',
-                    awaiting: 0,
-                    selected: false
-                },
-                {
-                    id: 3,
-                    name: 'Alice Brown',
-                    awaiting: 3,
-                    selected: false
-                },
-                {
-                    id: 4,
-                    name: 'Bob Young',
-                    awaiting: 15,
-                    selected: false
-                }
-            ]
+            specialists: [],
+            error: false
         }
+    },
+    created() {
+        axios.get("/api/v1/specialists").then(r => {
+            this.specialists = r.data.response.specialists.map(specialist => {
+                return {...specialist, selected: false}
+            });
+        }).catch(() => this.error = true);
     },
     methods: {
         select(index) {
@@ -49,9 +37,10 @@ export default {
                 el.selected = false;
             })
             this.specialists[index].selected = true;
+            this.$emit('click', this.specialists[index].id);
         },
         statusColor(n) {
-            if (n <= 0) return 'green';
+            if (n <= 1) return 'green';
             else if (n < 5) return 'yellow';
             else if (n < 10) return 'orange';
             else if (n >= 10) return 'red';
