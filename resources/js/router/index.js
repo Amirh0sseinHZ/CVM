@@ -5,6 +5,7 @@ import auth from "@/middleware/auth";
 import guest from "@/middleware/guest";
 import middlewarePipeline from "@/router/middlewarePipeline";
 import Home from '../pages/Home'
+import PageNotFound from '../pages/PageNotFound'
 
 Vue.use(Router);
 
@@ -29,6 +30,14 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "dashboard" */ "../pages/Dashboard")
     },
+    {
+        path: "/reservations/:code",
+        name: "Reservations",
+        component: () =>
+            import(/* webpackChunkName: "reservations" */ "../pages/Reservations")
+    },
+    { path: '/e404', component: PageNotFound, name: 'e404' },
+    { path: '/:pathMatch(.*)*', redirect: { name: 'e404' } },
 ];
 
 const router = new Router({
