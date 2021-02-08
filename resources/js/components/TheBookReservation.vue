@@ -1,26 +1,36 @@
 <template>
     <div class="px-20 flex flex-col align-middle">
-        <the-specialists-list v-if="showSpecialists"></the-specialists-list>
+        <the-specialists-list v-if="showSpecialists" v-on:click="select"></the-specialists-list>
         <button v-on:click="book" class="select-none my-10 draw-border cursor-pointer py-6 px-12 text-xl tracking-wide">Book an Appointment</button>
     </div>
 </template>
 
 <script>
-import TheSpecialistsList from "./TheSpecialistsList";
+    import axios from "axios";
+    import TheSpecialistsList from "./TheSpecialistsList";
 
-export default {
+    export default {
     components: {
         TheSpecialistsList
     },
     data() {
         return {
-            showSpecialists: false
+            showSpecialists: false,
+            selectedSpecialistId: null
         }
     },
     methods: {
+        select(id) {
+            this.selectedSpecialistId = id;
+        },
         book() {
             if(this.showSpecialists) {
-                //Todo: submitting
+                const payload = {
+                    specialist_id: this.selectedSpecialistId
+                }
+                axios.post("/api/v1/reservations", payload).then(r => {
+                    console.log(r.data.response.reservation);
+                });
                 return;
             }
             this.showSpecialists = true;
