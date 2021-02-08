@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,8 +12,8 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
@@ -23,8 +24,8 @@ class ReservationController extends Controller
             ->get();
 
         return response()->json([
-            "status"      => 200,
-            "response"    => ['reservations' => [
+            "status"       => 200,
+            "response"     => ['reservations' => [
                 "handling" => $handling,
                 "waiting"  => $waiting
             ]]
@@ -34,8 +35,8 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -51,7 +52,7 @@ class ReservationController extends Controller
                 "error"   => "Conflict",
                 "message" => "This session already has an active reservation. You may first cancel the reservation in order to book another one."
             ], 409);
-        };
+        }
 
         $validator = Validator::make($request->all(), [
             'specialist_id' => 'required|exists:users,id'
@@ -70,6 +71,8 @@ class ReservationController extends Controller
         $reservation->customer_id    = $request->session()->getId();
         $reservation->save();
 
+        $reservation->code = $reservation->specialist_id."_".$reservation->id;
+
         return response()->json([
             "status"      => 201,
             "message"     => "Successfully created.",
@@ -80,9 +83,9 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param $code
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(Request $request, $code)
     {
@@ -114,6 +117,8 @@ class ReservationController extends Controller
             $response['canBeCanceled'] = false;
         }
 
+        $response['reservation']['code'] = $reservation->specialist_id."_".$reservation->id;
+
         return response()->json([
             "status"   => 200,
             "response" => $response
@@ -121,11 +126,33 @@ class ReservationController extends Controller
     }
 
     /**
+     * Display the active resource of requester
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function showActive(Request $request)
+    {
+        $reservation = Reservation::where([
+            ['customer_id', $request->session()->getId()],
+            ['status', Reservation::STATUSES['waiting']]
+        ])->first();
+
+        if(! $reservation) {
+            return response()->json("", 404);
+        }
+
+        return response()->json([
+            "code" => $reservation->specialist_id."_".$reservation->id
+        ],200);
+    }
+
+    /**
      * Cancel the specified resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param $code
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function cancel(Request $request, $code)
     {
