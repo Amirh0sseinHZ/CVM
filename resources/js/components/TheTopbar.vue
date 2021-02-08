@@ -3,7 +3,7 @@
         <div>
             <router-link :to="{ name: 'Home'}">
                 <svg width="30" height="30" class="rounded-xl" xmlns="http://www.w3.org/2000/svg">
-                    <image :href="'./img/nfq-logo.svg'" width="30" height="30"/>
+                    <image href="/img/nfq-logo.svg" width="30" height="30"/>
                 </svg>
             </router-link>
         </div>
