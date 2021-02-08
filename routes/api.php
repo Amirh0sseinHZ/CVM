@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\SpecialistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SpecialistController;
-use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +17,7 @@ use App\Http\Controllers\ReservationController;
 */
 
 Route::prefix('v1')->group(function () {
+
     Route::prefix('reservations')->group(function () {
         /* Todo: protect the route */
         Route::get('/', [ReservationController::class, 'index']);
@@ -27,13 +28,18 @@ Route::prefix('v1')->group(function () {
         Route::put('/{code}/cancel', [ReservationController::class, 'cancel'])
             ->where('code', '^([1-9]\d{0,}_[1-9]\d{0,})$');
     });
+
+    Route::get('/reservation', [ReservationController::class, 'showActive']);
+
     Route::prefix('specialists')->group(function () {
         Route::get('/', [SpecialistController::class, 'index']);
         Route::get('/{id}', [SpecialistController::class, 'show']);
     });
+
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
     });
+
 });
