@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::any('{slug}', function () {
+Route::get('{all}', function() {
     return view('index');
-});
+})->where('all', '.*');
 
