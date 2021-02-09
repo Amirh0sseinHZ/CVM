@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import axios from "@/services/axios"
     import AlertBar from "./AlertBar";
 
     export default {
