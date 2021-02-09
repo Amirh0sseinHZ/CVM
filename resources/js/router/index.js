@@ -36,6 +36,13 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "reservations" */ "../pages/Reservations")
     },
+    {
+        path: "/sds",
+        name: "SDS",
+        meta: { middleware: [auth] },
+        component: () =>
+            import(/* webpackChunkName: "sds" */ "../pages/ServiceDepartmentScreen")
+    },
     { path: '/e404', component: PageNotFound, name: 'e404' },
     { path: '/:pathMatch(.*)*', redirect: { name: 'e404' } },
 ];
@@ -43,7 +50,7 @@ const routes = [
 const router = new Router({
     mode: 'history',
     routes,
-    linkExactActiveClass: 'active',
+    linkExactActiveClass: 'text-white font-black',
 });
 
 router.beforeEach((to, from, next) => {
