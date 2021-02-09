@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()
-            ->count(4)
-            ->has(Reservation::factory()->count(3))
+            ->count(3)
+            ->has(Reservation::factory()->count(4))
             ->create();
     }
 }
