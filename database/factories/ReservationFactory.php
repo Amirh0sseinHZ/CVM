@@ -22,10 +22,7 @@ class ReservationFactory extends Factory
     public function definition()
     {
         return [
-            'specialist_id' => function() {
-                return \App\Models\User::factory()->create()->id;
-            },
-            'status' => $this->faker->randomElement([-1, 0, 1, 2]),
+            'specialist_id' => \App\Models\User::factory()
         ];
     }
 }
