@@ -1,12 +1,10 @@
 import axios from "axios";
 import store from "@/store";
 
-const axiosInstance = axios.create({
-  baseURL: process.env.MIX_API_URL,
-  withCredentials: true,
-});
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-axiosInstance.interceptors.response.use( response => {
+axios.interceptors.response.use( response => {
         return response;
     },
     function(error) {
@@ -18,4 +16,4 @@ axiosInstance.interceptors.response.use( response => {
     }
 );
 
-export default axiosInstance;
+export default axios;
