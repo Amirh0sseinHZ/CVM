@@ -1,12 +1,12 @@
 <template>
-    <div class="px-20 flex flex-col align-middle">
+    <div>
         <the-specialists-list v-if="showSpecialists" v-on:click="select"></the-specialists-list>
         <button v-on:click="book" class="select-none my-10 draw-border cursor-pointer py-6 px-12 text-xl tracking-wide">Book an Appointment</button>
     </div>
 </template>
 
 <script>
-    import axios from "axios";
+    import axios from "@/services/axios";
     import TheSpecialistsList from "./TheSpecialistsList";
 
     export default {
