@@ -19,14 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
 
     Route::prefix('reservations')->group(function () {
-        /* Todo: protect the route */
-        Route::get('/', [ReservationController::class, 'index']);
-        /***************************/
         Route::post('/', [ReservationController::class, 'store']);
         Route::get('/{code}', [ReservationController::class, 'show'])
-            ->where('code', '^([1-9]\d{0,}_[1-9]\d{0,})$');
+            ->where('code', '^([1-9]\d{0,}-[1-9]\d{0,})$');
         Route::put('/{code}/cancel', [ReservationController::class, 'cancel'])
-            ->where('code', '^([1-9]\d{0,}_[1-9]\d{0,})$');
+            ->where('code', '^([1-9]\d{0,}-[1-9]\d{0,})$');
     });
 
     Route::prefix('specialists')->group(function () {
@@ -38,6 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
+        Route::get('/reservations', [ReservationController::class, 'index']);
     });
 
 });
