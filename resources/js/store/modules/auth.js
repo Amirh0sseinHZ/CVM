@@ -22,7 +22,7 @@ export default {
         login({commit}, payload) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get("/sanctum/csrf-cookie")
+                    .get('/sanctum/csrf-cookie')
                     .then(() => {return axios.post("/login", payload)})
                     .then(() => {return axios.get("/api/v1/user")})
                     .then(response => {
@@ -33,10 +33,12 @@ export default {
         },
         logout({commit}) {
             return new Promise((resolve, reject) => {
-                axios.post("/logout").then(() => {
-                    commit("logout_success");
-                    resolve();
-                }).catch(() => {reject()});
+                axios.get('/sanctum/csrf-cookie')
+                    .then(() => axios.post("/logout"))
+                    .then(() => {
+                        commit("logout_success");
+                        resolve();
+                    }).catch(() => {reject()});
             });
         }
     },
