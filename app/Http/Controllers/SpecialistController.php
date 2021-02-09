@@ -20,10 +20,7 @@ class SpecialistController extends Controller
             $specialist->awaiting = $specialist->getWaitingReservations()->count();
         }
 
-        return response()->json([
-            "status"   => 200,
-            "response" => ['specialists' => $specialists]
-        ], 200);
+        return response()->json($specialists, 200);
     }
 
     /**
@@ -34,6 +31,20 @@ class SpecialistController extends Controller
      */
     public function show($id)
     {
+        $specialist = User::where('id', (int) $id)->first();
 
+        if( ! $specialist) {
+            return response()->json([
+                "message" => "The specialist was not found."
+            ], 404);
+        }
+
+        $response = ['specialist' => $specialist];
+
+        $response['reservations']['waiting'] = $specialist->getWaitingReservations();
+        $response['reservations']['handling'] = $specialist->getCurrentSession();
+
+
+        return response()->json($response, 200);
     }
 }
