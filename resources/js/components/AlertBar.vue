@@ -21,6 +21,7 @@ export default {
         style() {
             switch (this.type) {
                 case 'danger': return "bg-red"
+                case 'info': return "bg-blue-light"
                 case 'warn': return "bg-orange text-black"
                 case 'success': return "bg-green"
                 default: return "bg-red";

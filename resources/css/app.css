@@ -38,10 +38,6 @@ body, html {
     @apply p-1 ml-4 cursor-pointer;
 }
 
-.router-link.active {
-    @apply border-b-2 border-solid pointer-events-none;
-}
-
-.router-link:not(.active):hover {
-    @apply border-b-2 border-solid border-gray;
+.page-title {
+    @apply text-3xl mb-10;
 }

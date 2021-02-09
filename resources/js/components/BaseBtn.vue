@@ -2,7 +2,7 @@
   <button
     :type="type"
     v-on="$listeners"
-    class="px-2.5 py-1.5 border border-transparent text-xs rounded shadow-sm text-white bg-blue-lighter hover:bg-blue-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue text-center transition"
+    class="px-2.5 py-1.5 text-lg rounded text-white text-center transition"
   >
     {{ text }}
   </button>

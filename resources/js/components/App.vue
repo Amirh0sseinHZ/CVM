@@ -1,17 +1,19 @@
 <template>
     <div class="flex flex-col">
         <the-topbar></the-topbar>
-        <main class="mt-20 flex-1 flex justify-center items-center">
-            <router-view></router-view>
+        <main class="mt-24 flex-1 flex justify-center items-center">
+            <div class="w-3/4 flex justify-center">
+                <router-view></router-view>
+            </div>
         </main>
         <notifications group="auth" position="bottom center" />
     </div>
 </template>
 
 <script>
-import TheTopbar from "./TheTopbar";
+    import TheTopbar from "./TheTopbar";
 
-export default {
+    export default {
     components: {
         TheTopbar
     }
