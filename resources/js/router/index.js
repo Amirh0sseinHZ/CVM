@@ -33,6 +33,7 @@ const routes = [
     {
         path: "/reservations/:code",
         name: "Reservations",
+        meta: { middleware: [guest] },
         component: () =>
             import(/* webpackChunkName: "reservations" */ "../pages/Reservations")
     },
