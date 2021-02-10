@@ -1,18 +1,20 @@
 <template>
-    <div>
-        <the-book-reservation></the-book-reservation>
+    <div class="w-full flex flex-col">
+        <div class="mb-5">
+            <the-search></the-search>
+        </div>
+        <div>
+            <router-link :to="'//'" class="text-gray text-lg hover:text-gray-light"> <!-- TODO: Fix Route Link -->
+                or book a <span class="underline">new reservation</span> now!
+            </router-link>
+        </div>
     </div>
 </template>
 
 <script>
-    import TheBookReservation from '../components/TheBookReservation';
+    import TheSearch from '../components/TheSearch'
 
     export default {
-    created() {
-        this.$store.dispatch('checkForActiveReservation')
-    },
-    components: {
-        TheBookReservation
+        components: {TheSearch}
     }
-}
 </script>
