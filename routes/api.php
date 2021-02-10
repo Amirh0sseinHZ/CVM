@@ -22,6 +22,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/', [ReservationController::class, 'store']);
         Route::get('/{code}', [ReservationController::class, 'show'])
             ->where('code', '^([1-9]\d{0,}-[1-9]\d{0,})$');
+        Route::put('/{code}/handle', [ReservationController::class, 'handle'])
+            ->where('code', '^([1-9]\d{0,}-[1-9]\d{0,})$');
+        Route::put('/{code}/end', [ReservationController::class, 'end'])
+            ->where('code', '^([1-9]\d{0,}-[1-9]\d{0,})$');
         Route::put('/{code}/cancel', [ReservationController::class, 'cancel'])
             ->where('code', '^([1-9]\d{0,}-[1-9]\d{0,})$');
     });
