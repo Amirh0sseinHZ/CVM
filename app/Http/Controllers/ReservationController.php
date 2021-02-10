@@ -62,7 +62,7 @@ class ReservationController extends Controller
      */
     public function show($code)
     {
-        $reservation = $this->getReservationOr404($code, Reservation::STATUSES['waiting']);
+        $reservation = $this->getReservationOr404($code);
 
         $response = ['reservation' => $reservation];
 
