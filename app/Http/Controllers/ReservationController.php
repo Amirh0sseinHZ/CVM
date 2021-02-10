@@ -129,11 +129,13 @@ class ReservationController extends Controller
         $resvId = $arr[1];
         $specialistId = $arr[0];
 
-        $reservation = Reservation::where([
-            ['id', $resvId],
-            ['specialist_id', $specialistId],
-            $status !== null ? ['status', $status] : []
-        ])->first();
+        $conditions = [ ['id', $resvId], ['specialist_id', $specialistId] ];
+
+        if($status) {
+            $conditions[] = ['status', $status];
+        }
+
+        $reservation = Reservation::where($conditions)->first();
 
         if( ! $reservation)
             throw new ResourceNotFound404Exception;
