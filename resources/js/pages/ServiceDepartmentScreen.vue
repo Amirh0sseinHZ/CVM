@@ -21,8 +21,8 @@
             </div>
         </div>
         <div v-else>
-            <alert-bar v-if="!error" type="info" text="There is no reservations at this moment"></alert-bar>
-            <alert-bar v-else></alert-bar>
+            <alert-bar v-if="error"></alert-bar>
+            <alert-bar v-else type="info" text="There is no reservations at this moment"></alert-bar>
         </div>
     </div>
 </template>
@@ -50,9 +50,9 @@
         methods: {
             fetchReservations() {
                 axios.get('api/v1/reservations').then(r => {
-                    this.error = false;
                     this.reservations = r.data;
-                }).catch(this.error = true);
+                    this.error = false;
+                }).catch(() => this.error = true);
             }
         },
         beforeDestroy() {
@@ -73,15 +73,12 @@
 
     @keyframes blinker {
         0% {
-        transform: scale(1);
-        opacity: .25
+            opacity: .25
         }
         50% {
-            transform: scale (1, 5);
             opacity: 1;
         }
         100% {
-            transform: scale(1);
             opacity: .25;
         }
     }
