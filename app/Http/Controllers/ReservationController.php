@@ -44,11 +44,8 @@ class ReservationController extends Controller
             'specialist_id' => 'required|integer|exists:users,id'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                "message" => "The requested specialist was not found."
-            ], 404);
-        }
+        if ($validator->fails())
+            throw new ResourceNotFound404Exception();
 
         $reservation = new Reservation;
         $reservation->specialist_id = $request->specialist_id;
