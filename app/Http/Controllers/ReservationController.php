@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ResourceNotFound404Exception;
 use App\Models\Reservation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -137,11 +138,8 @@ class ReservationController extends Controller
             $status !== null ? ['status', $status] : []
         ])->first();
 
-        if( ! $reservation) {
-            return response()->json([
-                "message" => "No reservation was not found."
-            ], 404);
-        }
+        if( ! $reservation)
+            throw new ResourceNotFound404Exception;
 
         return $reservation;
     }
