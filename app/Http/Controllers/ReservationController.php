@@ -17,9 +17,9 @@ class ReservationController extends Controller
      */
     public function index(Request $request)
     {
-        $waiting  = Reservation::where('status', Reservation::STATUSES['waiting'])
+        $waiting = Reservation::where('status', Reservation::STATUSES['waiting'])
             ->orderBy('created_at')
-            ->take((int) $request->input('limit') ? $request->input('limit') : 5)
+            ->take((int)$request->input('limit') ? $request->input('limit') : 5)
             ->get();
         $handling = Reservation::where('status', Reservation::STATUSES['handling'])
             ->orderByDesc('updated_at')
@@ -27,7 +27,7 @@ class ReservationController extends Controller
 
         return response()->json([
             "handling" => $handling,
-            "waiting"  => $waiting
+            "waiting" => $waiting
         ], 200);
     }
 
@@ -64,26 +64,13 @@ class ReservationController extends Controller
      */
     public function show($code)
     {
-        $arr          = explode('-', $code);
-        $resvId       = $arr[1];
-        $specialistId = $arr[0];
-
-        $reservation = Reservation::where([
-            ['id', $resvId],
-            ['specialist_id', $specialistId]
-        ])->first();
-
-        if( ! $reservation) {
-            return response()->json([
-                "message" => "The reservation was not found."
-            ], 404);
-        }
+        $reservation = $this->getReservationOr404($code, Reservation::STATUSES['waiting']);
 
         $response = ['reservation' => $reservation];
 
-        if($reservation->status == Reservation::STATUSES['waiting']) {
-            $response['queue']['items']      = $reservation->specialist->getWaitingReservations();
-            $response['queue']['position']   = $reservation->getPosInQueue();
+        if ($reservation->status == Reservation::STATUSES['waiting']) {
+            $response['queue']['items'] = $reservation->specialist->getWaitingReservations();
+            $response['queue']['position'] = $reservation->getPosInQueue();
             $response['queue']['estimation'] = $reservation->getEstimatedWaitingTime();
         }
 
@@ -98,14 +85,56 @@ class ReservationController extends Controller
      */
     public function cancel($code)
     {
-        $arr          = explode('-', $code);
-        $resvId       = $arr[1];
+        $reservation = $this->getReservationOr404($code, Reservation::STATUSES['waiting']);
+        $reservation->status = Reservation::STATUSES['canceled'];
+        $reservation->save();
+
+        return response()->json($reservation, 200);
+    }
+
+    /**
+     * Handle the specified resource.
+     *
+     * @param $code
+     * @return JsonResponse
+     */
+    public function handle($code)
+    {
+        $reservation = $this->getReservationOr404($code, Reservation::STATUSES['waiting']);
+        $reservation->status = Reservation::STATUSES['handling'];
+        $reservation->save();
+
+        return response()->json($reservation, 200);
+    }
+
+    /**
+     * End the specified resource.
+     *
+     * @param $code
+     * @return JsonResponse
+     */
+    public function end($code)
+    {
+        $reservation = $this->getReservationOr404($code, Reservation::STATUSES['handling']);
+        $reservation->status = Reservation::STATUSES['served'];
+        $reservation->save();
+
+        return response()->json($reservation, 200);
+    }
+
+    /*
+     * Get the specific resource by its code identifier. If not exists, returns 404
+     */
+    protected function getReservationOr404($code, $status = null)
+    {
+        $arr = explode('-', $code);
+        $resvId = $arr[1];
         $specialistId = $arr[0];
 
         $reservation = Reservation::where([
             ['id', $resvId],
             ['specialist_id', $specialistId],
-            ['status', Reservation::STATUSES['waiting']]
+            $status !== null ? ['status', $status] : []
         ])->first();
 
         if( ! $reservation) {
@@ -114,9 +143,6 @@ class ReservationController extends Controller
             ], 404);
         }
 
-        $reservation->status = Reservation::STATUSES['canceled'];
-        $reservation->save();
-
-        return response()->json($reservation, 200);
+        return $reservation;
     }
 }
