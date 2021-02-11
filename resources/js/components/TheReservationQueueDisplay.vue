@@ -29,8 +29,7 @@
 </template>
 
 <script>
-    import axios from "@/services/axios"
-    import {notify, secondsToHm} from "../utils/helpers";
+    import {secondsToHm} from "../utils/helpers";
     import BaseBtn from "../components/BaseBtn";
 
     export default {
@@ -72,13 +71,7 @@
                 }
             },
             cancel() {
-                // TODO: Extract out to parent
-                axios.put('/api/v1/reservations/' + this.$route.params.code + '/cancel').then(() => {
-                    this.$router.push({name: 'Home'});
-                    notify('The reservation was successfully canceled.', 'success', 'Action Successful');
-                }).catch(() => {
-                    notify('An error occurred while canceling the reservation.', 'error', 'Internal Error');
-                });
+                this.$emit('cancel-reservation')
             }
         }
     }
