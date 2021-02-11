@@ -5,7 +5,8 @@
             </the-reservation-queue-display>
             <the-reservation-handling-display :reservation="reservation.reservation" v-if="status === 1">
             </the-reservation-handling-display>
-            <the-post-reservation-details-display :reservation="reservation.reservation" v-if="[-1, 2].includes(status)">
+            <the-post-reservation-details-display :reservation="reservation.reservation"
+                                                  v-if="[-1, 2].includes(status)">
             </the-post-reservation-details-display>
         </div>
     </div>
@@ -18,23 +19,30 @@
     import ThePostReservationDetailsDisplay from "../components/ThePostReservationDetailsDisplay";
 
     export default {
-        components: {ThePostReservationDetailsDisplay, TheReservationHandlingDisplay, TheReservationQueueDisplay},
+        components: {
+            ThePostReservationDetailsDisplay,
+            TheReservationHandlingDisplay,
+            TheReservationQueueDisplay
+        },
         data() {
             return {
                 reservation: '',
                 status: '',
-                timer: ''
+                timer: '',
+                timeout: ''
             }
         },
         created() {
-            this.fetchReservation().catch(() => this.$router.push({name: 'e404'}));
-            this.timer = setInterval(this.fetchReservation, 5 * 1000) // TODO: dynamic timeout
+            this.fetchReservation().then(() => {
+                this.timer = setInterval(this.fetchReservation, this.timeout)
+            }).catch(() => this.$router.push({name: 'e404'}));
         },
         methods: {
             async fetchReservation() {
                 await axios.get('/api/v1/reservations/' + this.$route.params.code).then(r => {
                     this.reservation = r.data
                     this.status = r.data.reservation.status
+                    this.timeout = r.data.reservation.status === 0 ? 5000 : 30000
                 });
             },
         },
