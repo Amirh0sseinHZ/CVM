@@ -2,7 +2,7 @@
     <div class="flex flex-col">
         <div v-if="reservations.handling" class="mb-5 border-b-2 border-blue border-white pb-5">
             <h2 class="text-xl mb-4">Active Session</h2>
-            <div class="flex justify-between p-5 items-center w-full bg-white rounded-lg text-blue-dark">
+            <div class="flex justify-between p-5 items-center w-full bg-white rounded-lg text-blue-dark md:text-2xl">
                 <h3 class="text-4xl font-extrabold">
                     {{ getCode(reservations.handling) }}
                 </h3>
@@ -16,8 +16,8 @@
             <h2 class="text-xl mb-4">Incoming</h2>
             <div>
                 <div v-for="reservation in reservations.waiting"
-                     class="flex justify-between items-center bg-white rounded-lg text-gray-dark p-2 px-5 mb-3">
-                    <h3 class="text-xl">
+                     class="flex justify-between items-center bg-white rounded-lg text-gray-dark p-2 px-5 mb-3 lg:px-6">
+                    <h3 class="text-xl md:text-2xl">
                         {{ getCode(reservation) }}
                     </h3>
                     <div class="border-l-2 border-gray-light pl-4">

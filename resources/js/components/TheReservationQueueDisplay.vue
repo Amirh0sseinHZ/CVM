@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full">
+    <div class="w-full sm:w-3/4">
         <div class="flex flex-col-reverse relative">
             <base-btn class="bg-gray hover:bg-gray-dark my-20 px-0" text="Cancel My Reservation"
                       v-on:click="cancel"></base-btn>

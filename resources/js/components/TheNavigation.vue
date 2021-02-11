@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xl select-none outline-none text-gray">
+    <div class="text-xl select-none outline-none text-gray sm:text-2xl">
         <div v-if="!isLoggedIn">
             <router-link class="router-link" :to="{ name: 'Home' }">Home</router-link>
             <router-link class="router-link" :to="{ name: 'Login' }">Login</router-link>

@@ -5,7 +5,7 @@
                 <div class="relative">
                     <input
                         :class="style"
-                        class="bg-blue w-full border-2 border-transparent pl-5 pr-20 py-4 text-2xl rounded outline-none"
+                        class="bg-blue w-full border-2 border-transparent pl-5 pr-20 py-4 text-2xl rounded outline-none xl:text-3xl"
                         placeholder="Reservation Code"
                         v-model="code"/>
                     <div :class="style"
@@ -18,9 +18,9 @@
         <div v-if="reservation" class="mt-5">
             <router-link :to="{name: 'Reservations' , params:{ code: code }}">
                 <div
-                    class="bg-white rounded flex justify-between items-center text-blue-dark py-2 px-5 border-b-4"
+                    class="bg-white rounded flex justify-between items-center text-blue-dark py-2 px-5 border-b-4 lg:py-3"
                     :class="'border-' + STATUSES[reservation.status].color">
-                    <span class="text-2xl font-bold">{{ code }}</span>
+                    <span class="text-2xl font-bold lg:text-3xl">{{ code }}</span>
                     <span :class="'text-' + STATUSES[reservation.status].color">
                         {{ STATUSES[reservation.status].state }}
                     </span>

@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <alert-bar v-if="error"></alert-bar>
-        <div v-else-if="reservation">
+        <div class="flex items-center justify-center" v-else-if="reservation">
             <the-reservation-queue-display :reservation="reservation" v-if="status === 0"
                                            v-on:cancel-reservation="cancel">
             </the-reservation-queue-display>

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full">
+    <div class="w-full lg:w-3/4">
         <h1 class="page-title">Personnel Login</h1>
         <form @submit.prevent="login">
             <BaseInput
