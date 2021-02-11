@@ -3,8 +3,8 @@
         <alert-bar v-if="error"></alert-bar>
         <div
             v-for="(specialist, index) in specialists"
-            class="bg-white flex justify-between items-center border-b-4 text-blue-dark rounded-md p-5 mb-5"
-            :class="'border-' + statusColor(specialist.awaiting)"
+            class="bg-white flex justify-between items-center border-b-4 text-blue-dark rounded p-5 mb-5"
+            :class="statusBorder(specialist.awaiting)"
             v-on:click="select(index)">
                 <span class="text-lg font-bold mr-3">{{ specialist.name }}</span>
                 <div
@@ -42,11 +42,11 @@
             this.specialists[index].selected = true;
             this.$emit('click', this.specialists[index].id);
         },
-        statusColor(n) {
-            if (n <= 1) return 'green';
-            else if (n < 5) return 'yellow';
-            else if (n < 10) return 'orange';
-            else if (n >= 10) return 'red';
+        statusBorder(n) {
+            if (n <= 1) return 'border-green';
+            else if (n < 5) return 'border-yellow';
+            else if (n < 10) return 'border-orange';
+            else if (n >= 10) return 'border-red';
         }
     }
 }
