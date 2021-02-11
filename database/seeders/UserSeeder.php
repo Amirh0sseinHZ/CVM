@@ -16,8 +16,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()
-            ->count(3)
-            ->has(Reservation::factory()->count(4))
-            ->create();
+            ->has(Reservation::factory()->count(5))
+            ->create(['email' => 'spec1@nfq.lt']);
+        User::factory()
+            ->has(Reservation::factory()->count(3))
+            ->create(['email' => 'spec2@nfq.lt']);
+        User::factory()
+            ->create(['email' => 'spec3@nfq.lt']);
     }
 }
