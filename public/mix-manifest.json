@@ -4,5 +4,6 @@
     "/js/dashboard.js": "/js/dashboard.js",
     "/js/reservations.js": "/js/reservations.js",
     "/js/sds.js": "/js/sds.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/new-reservation.js": "/js/new-reservation.js"
 }
