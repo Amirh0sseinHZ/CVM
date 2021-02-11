@@ -78,19 +78,16 @@
                 }
 
                 if (!this.code.match("^([1-9]\\d{0,}-[1-9]\\d{0,})$")) {
-                    this.style = 'border-red' //error
+                    this.style = 'border-red'
                     return
                 }
 
-                this.style = 'border-2 border-blue-light' /// thinking
+                this.style = 'border-2 border-blue-light'
 
                 axios.get('/api/v1/reservations/' + this.code).then(r => {
                     this.reservation = r.data.reservation
                     this.style = 'border-green'
-                }).catch((e) => {
-                    console.log(e);
-                    this.style = 'border-red'
-                });
+                }).catch(() => this.style = 'border-red');
             }
         }
     }
