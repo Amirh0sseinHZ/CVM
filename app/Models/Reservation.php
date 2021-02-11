@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Reservation
@@ -25,6 +25,8 @@ class Reservation extends Model
 
     /**
      * Reservation Statuses
+     *
+     * @var array
      */
     public const STATUSES = [
         'canceled'  =>  -1,
@@ -33,8 +35,10 @@ class Reservation extends Model
         'served'    =>   2
     ];
 
-    /*
+    /**
      * The length of a normal reservation in seconds
+     *
+     * @var int
      */
     public const RESERVATION_LENGTH = 1200;
 
@@ -46,8 +50,10 @@ class Reservation extends Model
         return $this->belongsTo(User::class);
     }
 
-    /*
+    /**
      * Get the position in the queue
+     *
+     * @return int
      */
     public function getPosInQueue()
     {
@@ -58,8 +64,10 @@ class Reservation extends Model
         ])->count();
     }
 
-    /*
+    /**
      * Get the estimated waiting time in the queue in seconds
+     *
+     * @return int
      */
     public function getEstimatedWaitingTime()
     {

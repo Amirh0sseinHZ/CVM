@@ -36,6 +36,8 @@ class User extends Authenticatable
 
     /**
      * Indicate whether the model should have timestamps
+     *
+     * @var bool
      */
     public $timestamps = false;
 
@@ -49,6 +51,8 @@ class User extends Authenticatable
 
     /**
      * Get all the waiting reservations of the specialist
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getWaitingReservations()
     {
@@ -56,8 +60,10 @@ class User extends Authenticatable
             Reservation::STATUSES['waiting'])->get();
     }
 
-    /*
+    /**
      * Get the current session of the specialist being handled
+     *
+     * @return Reservation|object
      */
     public function getCurrentSession()
     {
@@ -65,8 +71,10 @@ class User extends Authenticatable
             Reservation::STATUSES['handling'])->first();
     }
 
-    /*
+    /**
      * Get the estimated waiting time for the specialist in seconds
+     *
+     * @return int
      */
     public function estimatedWaiting()
     {

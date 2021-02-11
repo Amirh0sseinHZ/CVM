@@ -44,7 +44,6 @@ class SpecialistController extends Controller
         $response['reservations']['waiting'] = $specialist->getWaitingReservations();
         $response['reservations']['handling'] = $specialist->getCurrentSession();
 
-
         return response()->json($response, 200);
     }
 }

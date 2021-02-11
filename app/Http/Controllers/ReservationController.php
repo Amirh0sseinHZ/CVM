@@ -120,24 +120,30 @@ class ReservationController extends Controller
         return response()->json($reservation, 200);
     }
 
-    /*
-     * Get the specific resource by its code identifier. If not exists, returns 404
+    /**
+     * End the specified resource.
+     *
+     * @param $code
+     * @param $status
+     * @return Reservation
+     *
+     * @throws ResourceNotFound404Exception
      */
-    protected function getReservationOr404($code, $status = null)
+    protected function getReservationOr404($code, $status = NULL)
     {
         $arr = explode('-', $code);
         $resvId = $arr[1];
         $specialistId = $arr[0];
 
-        $conditions = [ ['id', $resvId], ['specialist_id', $specialistId] ];
+        $conditions = [['id', $resvId], ['specialist_id', $specialistId]];
 
-        if($status) {
+        if ($status) {
             $conditions[] = ['status', $status];
         }
 
         $reservation = Reservation::where($conditions)->first();
 
-        if( ! $reservation)
+        if ( ! $reservation)
             throw new ResourceNotFound404Exception;
 
         return $reservation;
