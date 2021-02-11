@@ -2,7 +2,7 @@
   <button
     :type="type"
     v-on="$listeners"
-    class="px-2.5 py-1.5 text-lg rounded text-white text-center transition"
+    class="px-5 py-2.5 text-lg rounded text-white text-center transition"
   >
     {{ text }}
   </button>
