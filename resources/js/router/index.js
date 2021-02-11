@@ -31,6 +31,13 @@ const routes = [
             import(/* webpackChunkName: "dashboard" */ "../pages/Dashboard")
     },
     {
+        path: "/reservations/new",
+        name: "BookReservation",
+        meta: { middleware: [guest] },
+        component: () =>
+            import(/* webpackChunkName: "new-reservation" */ "../pages/BookReservation")
+    },
+    {
         path: "/reservations/:code",
         name: "Reservations",
         meta: { middleware: [guest] },
