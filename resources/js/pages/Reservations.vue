@@ -2,7 +2,8 @@
     <div class="w-full">
         <alert-bar v-if="error"></alert-bar>
         <div v-else-if="reservation">
-            <the-reservation-queue-display :reservation="reservation" v-if="status === 0">
+            <the-reservation-queue-display :reservation="reservation" v-if="status === 0"
+                                           v-on:cancel-reservation="cancel">
             </the-reservation-queue-display>
             <the-reservation-handling-display :reservation="reservation.reservation" v-if="status === 1">
             </the-reservation-handling-display>
@@ -19,6 +20,7 @@
     import TheReservationHandlingDisplay from "../components/TheReservationHandlingDisplay";
     import ThePostReservationDetailsDisplay from "../components/ThePostReservationDetailsDisplay";
     import AlertBar from "../components/AlertBar";
+    import {notify} from "../utils/helpers";
 
     export default {
         components: {
@@ -50,6 +52,16 @@
                     this.timeout = r.data.reservation.status === 0 ? 5000 : 30000
                 }).catch(() => this.error = true);
             },
+            cancel() {
+                axios.put('/api/v1/reservations/' + this.$route.params.code + '/cancel').then(r => {
+                    this.status = r.data.status
+                }).catch(() => {
+                    notify('An error occurred while canceling the reservation. Please try again.',
+                        'error',
+                        'Something Went Wrong'
+                    );
+                });
+            }
         },
         beforeDestroy() {
             clearInterval(this.timer)
