@@ -1,21 +1,21 @@
 <template>
     <div class="w-full">
         <h1 class="page-title">Service Department Screen</h1>
-        <div v-if="reservations.handling || reservations.waiting" class="flex flex-col">
-            <div v-if="reservations.handling" class="mb-5">
+        <div v-if="reservations.handling.length > 0 || reservations.waiting.length > 0" class="flex flex-col">
+            <div v-if="reservations.handling.length > 0" class="mb-5">
                 <h2 class="text-xl mb-4">Current Sessions</h2>
                 <div v-for="reservation in reservations.handling"
-                     class="bg-white flex justify-between items-center rounded-md text-gray-dark py-3 px-5 mb-3 text-lg font-extrabold">
+                     class="bg-white flex justify-between items-center rounded-md text-gray-dark py-3 px-5 mb-3 text-lg font-extrabold md:py-4 md:text-2xl">
                     <span>{{ reservation.specialist_id + '-' + reservation.id }}</span>
                     <div class="blink w-4 h-4 bg-green rounded-full"></div>
                 </div>
             </div>
-            <div v-if="reservations.waiting">
+            <div v-if="reservations.waiting.length > 0">
                 <h2 class="text-xl mb-4">Upcoming Reservations</h2>
                 <div class="flex flex-col">
                     <div
                         v-for="reservation in reservations.waiting"
-                        class="bg-white flex justify-between items-center rounded-md text-gray-dark py-3 px-5 mb-3 text-lg font-extrabold">
+                        class="bg-white flex justify-between items-center rounded-md text-gray-dark py-3 px-5 mb-3 text-lg font-extrabold md:py-4 md:text-2xl">
                         <span>{{ reservation.specialist_id + '-' + reservation.id }}</span>
                     </div>
                 </div>
