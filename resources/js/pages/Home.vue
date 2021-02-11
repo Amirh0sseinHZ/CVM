@@ -4,7 +4,7 @@
             <the-search></the-search>
         </div>
         <div>
-            <router-link :to="'//'" class="text-gray text-lg hover:text-gray-light"> <!-- TODO: Fix Route Link -->
+            <router-link :to="{name: 'BookReservation'}" class="text-gray text-lg hover:text-gray-light">
                 or book a <span class="underline">new reservation</span> now!
             </router-link>
         </div>
