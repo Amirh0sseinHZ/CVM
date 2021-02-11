@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 class ResourceNotFound404Exception extends Exception
 {
     /**
-     * Render the exception into an HTTP response.
+     * Render the exception into an JSON response.
      *
      * @return JsonResponse
      */
