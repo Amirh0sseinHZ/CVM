@@ -151,7 +151,7 @@ You may use them to log in to our [Live Demo][demo] as well.
 
 ## Session Length
 `SESSION_LENGTH` helps CVM to calculate the approximate waiting time in a queue. By default, it is set to 1200 seconds. 
-You can find and modify this constant variable at [/App/Models/Reservation](App/Models/Reservation.php)
+You can find and modify this constant variable at [App/Models/Reservation](/App/Models/Reservation.php)
 ```php
 ...
 
