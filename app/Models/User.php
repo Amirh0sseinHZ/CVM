@@ -79,14 +79,14 @@ class User extends Authenticatable
     public function estimatedWaiting()
     {
         $countOfWaitingReservations = $this->getWaitingReservations()->count();
-        $estimatedTime = $countOfWaitingReservations * Reservation::RESERVATION_LENGTH;
+        $estimatedTime = $countOfWaitingReservations * Reservation::SESSION_LENGTH;
 
         $currentSession = $this->getCurrentSession();
         if($currentSession) {
             $timePassedSinceStarted = Carbon::now()->diffInSeconds(
                 $currentSession->updated_at
             );
-            $timeRemaining = Reservation::RESERVATION_LENGTH - $timePassedSinceStarted;
+            $timeRemaining = Reservation::SESSION_LENGTH - $timePassedSinceStarted;
             if($timeRemaining > 0)
                 $estimatedTime += $timeRemaining;
         }

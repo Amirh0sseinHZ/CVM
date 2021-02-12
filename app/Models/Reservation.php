@@ -36,11 +36,11 @@ class Reservation extends Model
     ];
 
     /**
-     * The length of a normal reservation in seconds
+     * The length of an average session in seconds
      *
      * @var int
      */
-    public const RESERVATION_LENGTH = 1200;
+    public const SESSION_LENGTH = 1200;
 
     /**
      * Get the specialist associated to the reservation
@@ -72,14 +72,14 @@ class Reservation extends Model
     public function getEstimatedWaitingTime()
     {
         $peopleAheadInLine = $this->getPosInQueue();
-        $estimatedTime = $peopleAheadInLine * self::RESERVATION_LENGTH;
+        $estimatedTime = $peopleAheadInLine * self::SESSION_LENGTH;
 
         $currentSessionOfTheSpecialist = $this->specialist->getCurrentSession();
         if($currentSessionOfTheSpecialist) {
             $timePassedSinceStarted = Carbon::now()->diffInSeconds(
                 $currentSessionOfTheSpecialist->updated_at
             );
-            $timeRemaining = self::RESERVATION_LENGTH - $timePassedSinceStarted;
+            $timeRemaining = self::SESSION_LENGTH - $timePassedSinceStarted;
             if($timeRemaining > 0)
                 $estimatedTime += $timeRemaining;
         }
